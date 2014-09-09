@@ -4,7 +4,7 @@ require('DatabaseAdapter.php');
 
 class Subject {	
 
-    public function ifUserSessionUnsetLoadUserLoginPage() {	 
+   public function ifUserSessionUnsetLoadUserLoginPage() {	 
 	    if(!isset($_SESSION["user_id"])) {
 		  $this->loadUserLoginPage();
 		}
@@ -15,7 +15,7 @@ class Subject {
     	//parent::db_Connection();
     }
 
-	public function loadUserLoginPage() {
+    public function loadUserLoginPage() {
     	header("Location:./index.php?action=login");
     }    
 
@@ -24,41 +24,41 @@ class Subject {
 		    $AllSubjectsInfo[$arrSubject['sub_id']] = $arrSubject['sub_name'];				    	
 		 }
 		 return $AllSubjectsInfo;
-	}
+     }
 
-	public function getAllSubjectInfoFromDatabase() {  
-	    $DatabaseAdapterSelect = new DatabaseAdapter(); 
-        $AllSubjectsInfoRecords = $DatabaseAdapterSelect->SelectQueryExecution();   	
-        $AllSubjectsInfo = $this->fetchSubjectsInfoFromRecords( $AllSubjectsInfoRecords);		
-		return $AllSubjectsInfo;
-    }    
+    public function getAllSubjectInfoFromDatabase() {  
+         $DatabaseAdapterSelect = new DatabaseAdapter(); 
+  	 $AllSubjectsInfoRecords = $DatabaseAdapterSelect->SelectQueryExecution();   	
+	 $AllSubjectsInfo = $this->fetchSubjectsInfoFromRecords( $AllSubjectsInfoRecords);		
+	 return $AllSubjectsInfo;
+     }    
 
-	public function getAllSubjectInfo() {		
-		$AllSubjectsInfo = array();	
+    public function getAllSubjectInfo() {		
+	$AllSubjectsInfo = array();	
         $AllSubjectsInfo = $this->getAllSubjectInfoFromDatabase();						
-	    return $AllSubjectsInfo;
-	}
+        return $AllSubjectsInfo;
+    }
 
-	public function generateHTMLForSubjectTableRecords( $AllSubjectsInfo) {
-    	$subjectTableRecordsHTMLCode = "";
+   public function generateHTMLForSubjectTableRecords( $AllSubjectsInfo) {
+        $subjectTableRecordsHTMLCode = "";
 
-	    foreach ($AllSubjectsInfo as $subjectkey => $subjectName) {					
-		    $subjectTableRecordsHTMLCode .= '
-											<tr>
-												<td>'.$subjectName.'</td>
-												<td>
-													<a href="./index.php?action=editSubject&subkey='.$subjectkey.'">editSubject</a>
-												</td>
-											</tr>';
-		 }
+         foreach ($AllSubjectsInfo as $subjectkey => $subjectName) {					
+	    $subjectTableRecordsHTMLCode .= '
+										<tr>
+											<td>'.$subjectName.'</td>
+											<td>
+												<a href="./index.php?action=editSubject&subkey='.$subjectkey.'">editSubject</a>
+											</td>
+										</tr>';
+	 }
         return $subjectTableRecordsHTMLCode;      
     }
 
-	public function renderSubjectHTML( $SubjectTableRecordsHTMLCode) {					
-	    $SubjectHTMLCode = file_get_contents('subjectPartial1.html');
-        $SubjectHTMLCode .= $SubjectTableRecordsHTMLCode;
-		$SubjectHTMLCode .= file_get_contents('subjectPartial2.html');
-	    return $SubjectHTMLCode;
+    public function renderSubjectHTML( $SubjectTableRecordsHTMLCode) {					
+        $SubjectHTMLCode = file_get_contents('subjectPartial1.html');
+	$SubjectHTMLCode .= $SubjectTableRecordsHTMLCode;
+        $SubjectHTMLCode .= file_get_contents('subjectPartial2.html');
+	return $SubjectHTMLCode;
     } 
 
     public function getSubjectPageInfo() {
@@ -97,7 +97,7 @@ class Subject {
 		return $editSubjectHTMLCode;
 	}
 
-	public function getModifiedSubjectInfo() {
+   public function getModifiedSubjectInfo() {
     	$subjectInfo = array();
         $subjectInfo['subjectname'] = $_POST['subjectName'];
 		$subjectInfo['subjectid'] = $_GET['subkey'];
@@ -112,7 +112,7 @@ class Subject {
     	$DatabaseAdapterUpdate->UpdateQueryExecution( $subjectInfo);        	
     }        
     
-	public function onSubmitEditSubjectInfo() {					
+    public function onSubmitEditSubjectInfo() {					
 		if(isset($_POST['btnSubmit']))	{ 
 		    $this->getSubjectInfoandUpdateInDatabase();	
             echo "Onsubmit";						
